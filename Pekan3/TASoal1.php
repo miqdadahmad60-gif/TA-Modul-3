@@ -1,20 +1,108 @@
+```php
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login Smart School Kupang</title>
+<title>Smart School Kupang</title>
+
+<style>
+
+body{
+font-family:Arial, Helvetica, sans-serif;
+background:#f5f7fa;
+margin:0;
+}
+
+header{
+background:#00bcd4;
+color:white;
+padding:15px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.container{
+display:flex;
+justify-content:center;
+gap:40px;
+padding:40px;
+flex-wrap:wrap;
+}
+
+.card{
+background:white;
+padding:30px;
+width:350px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.card h2{
+text-align:center;
+margin-bottom:20px;
+}
+
+input, select{
+width:100%;
+padding:10px;
+margin-top:5px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+width:100%;
+padding:10px;
+background:#ff9800;
+border:none;
+color:white;
+font-weight:bold;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#e68900;
+}
+
+.message{
+margin-top:15px;
+padding:10px;
+background:#e8f5e9;
+border-radius:5px;
+}
+
+.error{
+background:#ffebee;
+}
+
+</style>
 </head>
+
 <body>
 
-<h2>Login Smart School Kupang</h2>
+<header>
+Smart School Kupang
+</header>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div class="card">
+
+<h2>Login</h2>
 
 <form method="POST">
-    Username : <br>
-    <input type="text" name="username" required><br><br>
 
-    Password : <br>
-    <input type="password" name="password" required><br><br>
+Username :
+<input type="text" name="username" required>
 
-    <button type="submit" name="login">Login</button>
+Password :
+<input type="password" name="password" required>
+
+<button type="submit" name="login">Login</button>
+
 </form>
 
 <?php
@@ -24,43 +112,45 @@ if(isset($_POST['login'])){
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // simulasi data user (belum database)
     $user_benar = "admin";
     $pass_benar = "12345";
 
     if($username == $user_benar && $password == $pass_benar){
-        echo "<p>Login berhasil! Selamat datang di Smart School Kupang.</p>";
+        echo "<div class='message'>Login berhasil! Selamat datang di Smart School Kupang.</div>";
     } else {
-        echo "<p>Username atau password salah.</p>";
+        echo "<div class='message error'>Username atau password salah.</div>";
     }
 }
-?>
-<title>Registrasi Smart School Kupang</title>
-</head>
-<body>
 
-<h2>Registrasi Pengguna</h2>
+?>
+
+</div>
+
+
+<!-- REGISTER -->
+<div class="card">
+
+<h2>Registrasi</h2>
 
 <form method="POST">
 
-    Nama Lengkap : <br>
-    <input type="text" name="nama" required><br><br>
+Nama Lengkap :
+<input type="text" name="nama" required>
 
-    Username : <br>
-    <input type="text" name="username" required><br><br>
+Username :
+<input type="text" name="username" required>
 
-    Password : <br>
-    <input type="password" name="password" required><br><br>
+Password :
+<input type="password" name="password" required>
 
-    Role : <br>
-    <select name="role">
-        <option value="siswa">Siswa</option>
-        <option value="guru">Guru</option>
-        <option value="orangtua">Orang Tua</option>
-    </select>
-    <br><br>
+Role :
+<select name="role">
+<option value="siswa">Siswa</option>
+<option value="guru">Guru</option>
+<option value="orangtua">Orang Tua</option>
+</select>
 
-    <button type="submit" name="register">Daftar</button>
+<button type="submit" name="register">Daftar</button>
 
 </form>
 
@@ -73,14 +163,21 @@ if(isset($_POST['register'])){
     $password = $_POST['password'];
     $role = $_POST['role'];
 
-    echo "<h3>Registrasi Berhasil</h3>";
+    echo "<div class='message'>";
+    echo "<b>Registrasi Berhasil</b><br>";
     echo "Nama : $nama <br>";
     echo "Username : $username <br>";
     echo "Role : $role <br>";
     echo "Akun berhasil dibuat (simulasi tanpa database)";
+    echo "</div>";
 }
 
 ?>
 
+</div>
+
+</div>
+
 </body>
 </html>
+```
