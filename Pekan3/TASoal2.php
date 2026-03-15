@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -111,6 +112,34 @@ color:white;
 akun demo : guru@smart.com / 123
 </p>
 
+<p style="font-size:12px">
+Belum punya akun? 
+<a href="#" onclick="showPage('registerPage')">Daftar disini</a>
+</p>
+
+</div>
+
+</div>
+
+
+<!-- REGISTER (TAMBAHAN BARU) -->
+<div id="registerPage" class="page">
+
+<div class="auth-box">
+
+<h3>Registrasi Akun</h3>
+
+<input type="text" id="regNama" placeholder="Nama Lengkap">
+<input type="text" id="regEmail" placeholder="Email">
+<input type="password" id="regPass" placeholder="Password">
+
+<button onclick="register()">Daftar</button>
+
+<p style="font-size:12px">
+Sudah punya akun? 
+<a href="#" onclick="showPage('loginPage')">Login disini</a>
+</p>
+
 </div>
 
 </div>
@@ -172,9 +201,24 @@ function login(){
 let email=document.getElementById("email").value
 let pass=document.getElementById("pass").value
 
+let users=JSON.parse(localStorage.getItem("users")) || []
+
+let akun=users.find(u=>u.email===email && u.pass===pass)
+
 if(email==="guru@smart.com" && pass==="123"){
 
 userLogin={nama:"Guru Demo"}
+
+document.getElementById("userArea").innerHTML=
+'Halo <b>'+userLogin.nama+'</b> <button class="logout" onclick="logout()">Logout</button>'
+
+showPage("dashboardPage")
+
+readMateri()
+
+}else if(akun){
+
+userLogin={nama:akun.nama}
 
 document.getElementById("userArea").innerHTML=
 'Halo <b>'+userLogin.nama+'</b> <button class="logout" onclick="logout()">Logout</button>'
@@ -188,6 +232,38 @@ readMateri()
 alert("Login gagal")
 
 }
+
+}
+
+
+
+function register(){
+
+let nama=document.getElementById("regNama").value
+let email=document.getElementById("regEmail").value
+let pass=document.getElementById("regPass").value
+
+if(!nama || !email || !pass){
+
+alert("Isi semua data")
+
+return
+
+}
+
+let users=JSON.parse(localStorage.getItem("users")) || []
+
+users.push({
+nama:nama,
+email:email,
+pass:pass
+})
+
+localStorage.setItem("users",JSON.stringify(users))
+
+alert("Registrasi berhasil, silakan login")
+
+showPage("loginPage")
 
 }
 
@@ -263,3 +339,4 @@ tabel.innerHTML+=`
 
 </body>
 </html>
+```
