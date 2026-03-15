@@ -1,80 +1,61 @@
-```php
+```html
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+<meta charset="UTF-8">
 <title>Smart School Kupang</title>
 
 <style>
 
 body{
-font-family:Arial, Helvetica, sans-serif;
-background:#f5f7fa;
+font-family:Arial;
 margin:0;
+background:#f8f9fa;
 }
 
 header{
-background:#00bcd4;
-color:white;
-padding:15px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-}
-
-.container{
+background:white;
+padding:15px 30px;
+border-bottom:1px solid #eee;
 display:flex;
-justify-content:center;
-gap:40px;
-padding:40px;
-flex-wrap:wrap;
+justify-content:space-between;
 }
 
-.card{
+.logo{
+font-size:20px;
+font-weight:bold;
+color:#00bcd4;
+}
+
+.auth-box{
+max-width:400px;
+margin:100px auto;
 background:white;
 padding:30px;
-width:350px;
 border-radius:10px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
+box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-.card h2{
-text-align:center;
-margin-bottom:20px;
-}
-
-input, select{
+input{
 width:100%;
 padding:10px;
-margin-top:5px;
-margin-bottom:15px;
-border:1px solid #ccc;
-border-radius:5px;
+margin:8px 0;
 }
 
 button{
-width:100%;
 padding:10px;
 background:#ff9800;
-border:none;
 color:white;
-font-weight:bold;
-border-radius:5px;
+border:none;
 cursor:pointer;
 }
 
-button:hover{
-background:#e68900;
+.page{
+display:none;
 }
 
-.message{
-margin-top:15px;
-padding:10px;
-background:#e8f5e9;
-border-radius:5px;
-}
-
-.error{
-background:#ffebee;
+.active{
+display:block;
 }
 
 </style>
@@ -83,100 +64,124 @@ background:#ffebee;
 <body>
 
 <header>
-Smart School Kupang
+<div class="logo">Smart School Kupang</div>
 </header>
 
-<div class="container">
 
 <!-- LOGIN -->
-<div class="card">
+<div id="loginPage" class="page active">
 
-<h2>Login</h2>
+<div class="auth-box">
 
-<form method="POST">
+<h3>Login Guru</h3>
 
-Username :
-<input type="text" name="username" required>
+<input type="text" id="email" placeholder="Email">
+<input type="password" id="pass" placeholder="Password">
 
-Password :
-<input type="password" name="password" required>
+<button onclick="login()">Login</button>
 
-<button type="submit" name="login">Login</button>
+<p style="font-size:12px">
+akun demo : guru@smart.com / 123
+</p>
 
-</form>
+<p style="font-size:12px">
+Belum punya akun?
+<a href="#" onclick="showPage('registerPage')">Daftar disini</a>
+</p>
 
-<?php
-
-if(isset($_POST['login'])){
-
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
-    $user_benar = "admin";
-    $pass_benar = "12345";
-
-    if($username == $user_benar && $password == $pass_benar){
-        echo "<div class='message'>Login berhasil! Selamat datang di Smart School Kupang.</div>";
-    } else {
-        echo "<div class='message error'>Username atau password salah.</div>";
-    }
-}
-
-?>
+</div>
 
 </div>
 
 
 <!-- REGISTER -->
-<div class="card">
+<div id="registerPage" class="page">
 
-<h2>Registrasi</h2>
+<div class="auth-box">
 
-<form method="POST">
+<h3>Registrasi Akun</h3>
 
-Nama Lengkap :
-<input type="text" name="nama" required>
+<input type="text" id="regNama" placeholder="Nama Lengkap">
+<input type="text" id="regEmail" placeholder="Email">
+<input type="password" id="regPass" placeholder="Password">
 
-Username :
-<input type="text" name="username" required>
+<button onclick="register()">Daftar</button>
 
-Password :
-<input type="password" name="password" required>
+<p style="font-size:12px">
+Sudah punya akun?
+<a href="#" onclick="showPage('loginPage')">Login disini</a>
+</p>
 
-Role :
-<select name="role">
-<option value="siswa">Siswa</option>
-<option value="guru">Guru</option>
-<option value="orangtua">Orang Tua</option>
-</select>
+</div>
 
-<button type="submit" name="register">Daftar</button>
+</div>
 
-</form>
 
-<?php
+<script>
 
-if(isset($_POST['register'])){
+function showPage(page){
 
-    $nama = $_POST['nama'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $role = $_POST['role'];
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"))
 
-    echo "<div class='message'>";
-    echo "<b>Registrasi Berhasil</b><br>";
-    echo "Nama : $nama <br>";
-    echo "Username : $username <br>";
-    echo "Role : $role <br>";
-    echo "Akun berhasil dibuat (simulasi tanpa database)";
-    echo "</div>";
+document.getElementById(page).classList.add("active")
+
 }
 
-?>
 
-</div>
+function login(){
 
-</div>
+let email=document.getElementById("email").value
+let pass=document.getElementById("pass").value
+
+let users=JSON.parse(localStorage.getItem("users")) || []
+
+let akun=users.find(u=>u.email===email && u.pass===pass)
+
+if(email==="guru@smart.com" && pass==="123" || akun){
+
+localStorage.setItem("login","true")
+
+window.location="dashboard.html"
+
+}else{
+
+alert("Login gagal")
+
+}
+
+}
+
+
+function register(){
+
+let nama=document.getElementById("regNama").value
+let email=document.getElementById("regEmail").value
+let pass=document.getElementById("regPass").value
+
+if(!nama || !email || !pass){
+
+alert("Isi semua data")
+return
+
+}
+
+let users=JSON.parse(localStorage.getItem("users")) || []
+
+users.push({
+nama:nama,
+email:email,
+pass:pass
+})
+
+localStorage.setItem("users",JSON.stringify(users))
+
+alert("Registrasi berhasil")
+
+showPage("loginPage")
+
+}
+
+</script>
 
 </body>
 </html>
